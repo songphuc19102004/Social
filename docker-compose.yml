@@ -1,8 +1,8 @@
 services:
-  db: 
+  db:
     image: postgres:16.3
     container_name: postgres-db
-    environment: 
+    environment:
       POSTGRES_DB: social
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123123
@@ -10,6 +10,58 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - 5431:5432
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: social-api
+    depends_on:
+      - db
+    environment:
+      DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
+      ADDR: ":8080"
+      SERVICE_NAME: "api"
+    restart: always
+
+  api1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: social-api1
+    depends_on:
+      - db
+    environment:
+      DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
+      ADDR: ":6969"
+      SERVICE_NAME: "api1"
+    restart: always
+
+  api2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: social-api2
+    depends_on:
+      - db
+    environment:
+      DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
+      ADDR: ":1235"
+      SERVICE_NAME: "api2"
+    restart: always
+
+  nginx:
+    image: nginx:1.27
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - api
+    restart: always
 
 volumes:
   db-data:
