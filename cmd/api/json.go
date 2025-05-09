@@ -13,7 +13,7 @@ func writeJSON(w http.ResponseWriter, status int, data any) error {
 	return json.NewEncoder(w).Encode(data)
 }
 
-func readJSON(w http.ResponseWriter, r *http.Request, data *any) error {
+func readJSON(w http.ResponseWriter, r *http.Request, data any) error {
 	r.Body = http.MaxBytesReader(w, r.Body, maxRequestBytes)
 
 	decoder := json.NewDecoder(r.Body)
@@ -22,10 +22,10 @@ func readJSON(w http.ResponseWriter, r *http.Request, data *any) error {
 	return decoder.Decode(data)
 }
 
-func writeJSONError(w http.ResponseWriter, status int, err error) error {
+func writeJSONError(w http.ResponseWriter, status int, err string) error {
 	type errorMessage struct {
 		Error string `json:"error"`
 	}
 
-	return writeJSON(w, status, errorMessage{Error: err.Error()})
+	return writeJSON(w, status, errorMessage{Error: err})
 }

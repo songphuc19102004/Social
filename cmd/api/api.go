@@ -28,7 +28,14 @@ type dbConfig struct {
 func (app *application) mount() *http.ServeMux {
 	mux := http.NewServeMux()
 
+	// healthcheck
 	mux.HandleFunc("GET /v1/health", app.healthCheckHandler)
+
+	// posts
+	mux.HandleFunc("POST /v1/posts", app.createPostHandler)
+	mux.HandleFunc("GET /v1/posts/{postId}", app.getPostHandler)
+
+	// users
 
 	return mux
 }

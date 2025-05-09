@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 // we are not using dbConfig struct as parameter because internal should not know outside its scope

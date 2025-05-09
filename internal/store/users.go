@@ -22,7 +22,7 @@ func (store *UserStore) Create(ctx context.Context, user *User) error {
 	query := `
     INSERT INTO
     users(username, first_name, last_name, age, hashed_password)
-    VALUE($1, $2, $3, $4,) RETURNING id, created_at, updated_at
+    VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at
   `
 
 	err := store.db.QueryRowContext(
