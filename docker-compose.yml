@@ -22,6 +22,7 @@ services:
       DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
       ADDR: ":8080"
       SERVICE_NAME: "api"
+      ENV: "dev"
     restart: always
 
   api1:
@@ -35,6 +36,7 @@ services:
       DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
       ADDR: ":6969"
       SERVICE_NAME: "api1"
+      ENV: "dev"
     restart: always
 
   api2:
@@ -48,6 +50,7 @@ services:
       DB_ADDR: postgres://admin:123123@db:5432/social?sslmode=disable
       ADDR: ":1235"
       SERVICE_NAME: "api2"
+      ENV: "dev"
     restart: always
 
   nginx:

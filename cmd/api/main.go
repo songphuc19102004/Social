@@ -8,6 +8,8 @@ import (
 	"github.com/songphuc19102004/social/internal/store"
 )
 
+const version string = "0.0.1"
+
 func main() {
 	cfg := config{
 		addr: env.GetString("ADDR", ":8080"),
