@@ -7,5 +7,5 @@
 docker compose up --build
 ```
 ---
-### Hit the endpoint
-- Access localhost/health
+### Endpoints
+- To download API Endpoints, [CLICK HERE](./docs/APIs/)

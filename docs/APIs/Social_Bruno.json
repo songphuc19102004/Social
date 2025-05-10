@@ -1,0 +1,265 @@
+{
+  "name": "Social",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "Post",
+      "filename": "Post",
+      "root": {
+        "meta": {
+          "name": "Post"
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Post Update",
+          "filename": "Post Update.bru",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost/v1/posts/:id",
+            "method": "PUT",
+            "headers": [],
+            "params": [
+              {
+                "name": "id",
+                "value": "10",
+                "type": "path",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"content\": \"test\",\n  \"title\": \"test\",\n  \"tags\": [\"hello\", \"moi\", \"nguoi\"]\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Post Get",
+          "filename": "Post Get.bru",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost/v1/posts/:id",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "id",
+                "value": "12",
+                "type": "path",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Post Create",
+          "filename": "Post Create.bru",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost/v1/posts",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"content\": \"asdasdasdasdasd\",\n  \"title\": \"1\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Post Delete",
+          "filename": "Post Delete.bru",
+          "seq": 4,
+          "request": {
+            "url": "http://localhost/v1/posts/:id",
+            "method": "DELETE",
+            "headers": [],
+            "params": [
+              {
+                "name": "id",
+                "value": "12",
+                "type": "path",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Comment",
+      "filename": "Comment",
+      "root": {
+        "meta": {
+          "name": "Comment"
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Comment Create",
+          "filename": "Comment Create.bru",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost/v1/comments",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"content\": \"bai viet hay!\",\n  \"post_id\": 4\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Comment Get",
+          "filename": "Comment Get.bru",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost/v1/comments/:id",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "id",
+                "value": "12",
+                "type": "path",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Health",
+      "filename": "Health",
+      "root": {
+        "meta": {
+          "name": "Health"
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Health Get",
+          "filename": "Health Get.bru",
+          "seq": 1,
+          "request": {
+            "url": "",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Social",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}
