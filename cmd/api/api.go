@@ -26,18 +26,32 @@ type dbConfig struct {
 }
 
 func (app *application) mount() *http.ServeMux {
-	mux := http.NewServeMux()
+	mainMux := http.NewServeMux()
+	v1Router := http.NewServeMux()
+	mainMux.Handle("/v1/", http.StripPrefix("/v1", v1Router))
 
 	// healthcheck
-	mux.HandleFunc("GET /v1/health", app.healthCheckHandler)
+	v1Router.HandleFunc("GET /health", app.healthCheckHandler)
 
 	// posts
-	mux.HandleFunc("POST /v1/posts", app.createPostHandler)
-	mux.HandleFunc("GET /v1/posts/{postId}", app.getPostHandler)
+	v1Router.HandleFunc("POST /posts", app.createPostHandler)
+
+	// handling endpoints that requires getting a post from id
+	postDetailRouter := http.NewServeMux()
+	v1Router.Handle("/posts/{postId}", app.postContextMiddleware(postDetailRouter))
+	v1Router.Handle("/posts/{postId}/", app.postContextMiddleware(postDetailRouter))
+
+	postDetailRouter.HandleFunc("GET /", app.getPostHandler)
+	postDetailRouter.HandleFunc("DELETE /", app.deletePostHandler)
+	postDetailRouter.HandleFunc("PUT /", app.updatePostHandler)
 
 	// users
 
-	return mux
+	// comments
+	v1Router.HandleFunc("POST /comments", app.createCommentHandler)
+	v1Router.HandleFunc("GET /comments/{commentId}", app.getCommentHandler)
+
+	return mainMux
 }
 
 func (app *application) run(mux *http.ServeMux) error {
