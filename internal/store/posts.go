@@ -13,7 +13,7 @@ var ErrNotFound = errors.New("record not found")
 type Post struct {
 	ID        int64    `json:"id"`
 	Content   string   `json:"content"`
-	Title     string   `json:"title"`
+	Title     string   `json:"title" validate:"required,max=100"`
 	Tags      []string `json:"tags"`
 	UserID    int      `json:"user_id"`
 	CreatedAt string   `json:"created_at"`

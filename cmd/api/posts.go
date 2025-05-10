@@ -5,12 +5,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/songphuc19102004/social/internal"
 	"github.com/songphuc19102004/social/internal/store"
 )
 
 type createPostRequest struct {
-	Content string   `json:"content"`
-	Title   string   `json:"title"`
+	Content string   `json:"content" validate:"min=2,max=100"`
+	Title   string   `json:"title" validate:"min=2,max=100"`
 	Tags    []string `json:"tags"`
 }
 
@@ -18,6 +19,11 @@ func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request
 	var createRequest createPostRequest
 
 	if err := readJSON(w, r, &createRequest); err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	if err := internal.Validate(createRequest); err != nil {
 		app.badRequest(w, r, err)
 		return
 	}
