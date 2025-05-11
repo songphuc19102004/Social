@@ -23,9 +23,9 @@ type createPostPayload struct {
 }
 
 type updatePostPayload struct {
-	Content *string   `json:"content" validate:"min=2,max=100"`
-	Title   *string   `json:"title" validate:"min=2,max=100"`
-	Tags    *[]string `json:"tags"`
+	Content *string   `json:"content,omitempty" validate:"min=2,max=100"`
+	Title   *string   `json:"title,omitempty" validate:"min=2,max=100"`
+	Tags    *[]string `json:"tags,omitempty"`
 }
 
 func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request) {
@@ -72,7 +72,7 @@ func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	post.Comments = *comments
 
-	if err = writeJSON(w, http.StatusOK, post); err != nil {
+	if err = app.jsonResponse(w, http.StatusOK, post); err != nil {
 		app.badRequest(w, r, err)
 	}
 }
@@ -106,11 +106,17 @@ func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request
 	ctx := r.Context()
 
 	if err := app.store.Posts.Update(ctx, post); err != nil {
-		app.badRequest(w, r, err)
-		return
+		switch {
+		case errors.Is(err, store.ErrNotFound):
+			app.conflict(w, r, err)
+
+		default:
+			app.badRequest(w, r, err)
+			return
+		}
 	}
 
-	if err := writeJSON(w, http.StatusOK, *post); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, *post); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}

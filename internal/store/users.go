@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
 )
 
 type User struct {
@@ -12,6 +13,7 @@ type User struct {
 	LastName       string
 	Age            int
 	HashedPassword string
+	CreatedAt      string
 }
 
 type UserStore struct {
@@ -25,6 +27,8 @@ func (store *UserStore) Create(ctx context.Context, user *User) error {
     VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at
   `
 
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
 	err := store.db.QueryRowContext(
 		ctx,
 		query,
@@ -35,11 +39,41 @@ func (store *UserStore) Create(ctx context.Context, user *User) error {
 		user.HashedPassword,
 	).Scan(
 		&user.ID,
-		&user.Username,
+		&user.CreatedAt,
 	)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (store *UserStore) GetById(ctx context.Context, userId int64) (*User, error) {
+	var user User
+	query := `
+  SELECT u.id, u.username, u.first_name, u.last_name, u.age, u.created_at
+  FROM users u
+  WHERE u.id = $1
+  `
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
+
+	err := store.db.QueryRowContext(ctx, query, userId).Scan(
+		&user.ID,
+		&user.Username,
+		&user.FirstName,
+		&user.LastName,
+		&user.Age,
+		&user.CreatedAt,
+	)
+	if err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, ErrNotFound
+		default:
+			return nil, err
+		}
+	}
+	return &user, nil
 }

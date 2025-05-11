@@ -43,9 +43,10 @@ func (app *application) mount() *http.ServeMux {
 
 	postDetailRouter.HandleFunc("GET /", app.getPostHandler)
 	postDetailRouter.HandleFunc("DELETE /", app.deletePostHandler)
-	postDetailRouter.HandleFunc("PUT /", app.updatePostHandler)
+	postDetailRouter.HandleFunc("PATCH /", app.updatePostHandler)
 
 	// users
+	v1Router.HandleFunc("GET /users/{userId}", app.getUserHandler)
 
 	// comments
 	v1Router.HandleFunc("POST /comments", app.createCommentHandler)

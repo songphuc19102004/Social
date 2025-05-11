@@ -8,8 +8,6 @@ import (
 	"github.com/lib/pq"
 )
 
-var ErrNotFound = errors.New("record not found")
-
 type Post struct {
 	ID        int64     `json:"id"`
 	Content   string    `json:"content"`
@@ -19,6 +17,7 @@ type Post struct {
 	CreatedAt string    `json:"created_at"`
 	Updatedt  string    `json:"updated_at"`
 	User      User      `json:"user"`
+	Version   int       `json:"version"`
 	Comments  []Comment `json:"comments"`
 }
 
@@ -32,6 +31,9 @@ func (store *PostStore) Create(ctx context.Context, post *Post) error {
     posts(content, title, tags, user_id)
     VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at
   `
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
 
 	err := store.db.QueryRowContext(
 		ctx,
@@ -54,10 +56,12 @@ func (store *PostStore) Create(ctx context.Context, post *Post) error {
 
 func (store *PostStore) GetById(ctx context.Context, postId int64) (*Post, error) {
 	query := `
-    SELECT id, content, title, tags, user_id, created_at, updated_at
+    SELECT id, content, title, tags, user_id, created_at, updated_at, version
     FROM posts p
     WHERE p.id = $1
   `
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
 
 	var post Post
 
@@ -69,6 +73,7 @@ func (store *PostStore) GetById(ctx context.Context, postId int64) (*Post, error
 		&post.UserID,
 		&post.CreatedAt,
 		&post.Updatedt,
+		&post.Version,
 	)
 	if err != nil {
 		switch {
@@ -87,6 +92,9 @@ func (store *PostStore) Delete(ctx context.Context, postId int64) error {
   DELETE FROM posts p
   WHERE p.id = $1;
   `
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
 
 	result, err := store.db.Exec(query, postId)
 	if err != nil {
@@ -108,12 +116,24 @@ func (store *PostStore) Delete(ctx context.Context, postId int64) error {
 func (store *PostStore) Update(ctx context.Context, post *Post) error {
 	query := `
   UPDATE posts
-  SET title = $1, content = $2, tags = $3
-  WHERE id = $4
+  SET title = $1, content = $2, tags = $3, version = version + 1
+  WHERE id = $4 AND version = $5
+  RETURNING version
   `
-	_, err := store.db.ExecContext(ctx, query, post.Title, post.Content, pq.Array(post.Tags), post.ID)
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
+
+	err := store.db.QueryRowContext(ctx, query, post.Title, post.Content, pq.Array(post.Tags), post.ID, post.Version).Scan(
+		&post.Version,
+	)
 	if err != nil {
-		return err
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return ErrNotFound
+		default:
+			return err
+		}
 	}
 	return nil
 }

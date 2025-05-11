@@ -5,147 +5,6 @@
   },
   "item": [
     {
-      "name": "Post",
-      "item": [
-        {
-          "name": "Post Update",
-          "event": [],
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "auth": {
-              "type": "noauth"
-            },
-            "description": "",
-            "url": {
-              "raw": "http://localhost/v1/posts/:id",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "path": [
-                "v1",
-                "posts",
-                ":id"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "10"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"content\": \"test\",\n  \"title\": \"test\",\n  \"tags\": [\"hello\", \"moi\", \"nguoi\"]\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Post Get",
-          "event": [],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "auth": {
-              "type": "noauth"
-            },
-            "description": "",
-            "url": {
-              "raw": "http://localhost/v1/posts/:id",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "path": [
-                "v1",
-                "posts",
-                ":id"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "12"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Post Create",
-          "event": [],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "auth": {
-              "type": "noauth"
-            },
-            "description": "",
-            "url": {
-              "raw": "http://localhost/v1/posts",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "path": [
-                "v1",
-                "posts"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"content\": \"asdasdasdasdasd\",\n  \"title\": \"1\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Post Delete",
-          "event": [],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "auth": {
-              "type": "noauth"
-            },
-            "description": "",
-            "url": {
-              "raw": "http://localhost/v1/posts/:id",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "path": [
-                "v1",
-                "posts",
-                ":id"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "12"
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    {
       "name": "Comment",
       "item": [
         {
@@ -223,6 +82,192 @@
           "event": [],
           "request": {
             "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "",
+              "protocol": "",
+              "host": [],
+              "path": [],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Post",
+      "item": [
+        {
+          "name": "Post Create",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost/v1/posts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "v1",
+                "posts"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"asdasdasdasdasd\",\n  \"title\": \"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Post Delete",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost/v1/posts/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "v1",
+                "posts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "12"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Post Get",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost/v1/posts/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "v1",
+                "posts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "9"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Post Update",
+          "event": [],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost/v1/posts/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "v1",
+                "posts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "10"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"test\",\n  \"title\": \"test\",\n  \"tags\": [\"hello\", \"moi\", \"nguoi\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "User Get",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "",
+              "protocol": "",
+              "host": [],
+              "path": [],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "User Create",
+          "event": [],
+          "request": {
+            "method": "POST",
             "header": [],
             "auth": {
               "type": "noauth"
